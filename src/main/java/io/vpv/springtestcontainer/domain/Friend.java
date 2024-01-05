@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Document("friends")
 public record Friend(
-        @Id UUID id,
+        @Id String id,
         String firstName,
         String lastName,
         String email,

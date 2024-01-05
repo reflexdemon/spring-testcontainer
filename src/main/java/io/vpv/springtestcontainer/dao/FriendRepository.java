@@ -5,6 +5,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.UUID;
 
-public interface FriendRepository extends MongoRepository<Friend, UUID> {
+public interface FriendRepository extends MongoRepository<Friend, String> {
     Friend findFriendByEmail(String email);
 }

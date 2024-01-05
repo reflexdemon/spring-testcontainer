@@ -1,20 +1,24 @@
 version: "3"
 services:
-  db:                          # This is our database service container
+  mongodb:                          # This is our database service container
     image: mongo:latest               # We choose what database to connect with their default commands
-    command: -v mongo-data:/data/db --name spring-test-container
+    volumes:
+      - type: bind
+        source: ./data
+        target: /data/db
+    command: '/bin/bash -c "sleep 5; mongosh $$CONN_STR --eval \"show dbs;\""'
     ports:
       - "27017:27017"
     env_file:                  # Choose our environment configuration used to start the container
       - .env
-  docker-example:
+  spring-testcontainer:
     build:
       context: .
       dockerfile: Dockerfile
     depends_on:                # We are basically telling docker, before starting this java service please start 'db' service
-      - db
+      - mongodb
     links:                     # This enables the Network connection between the containers
-      - db
+      - mongodb
     ports:
       - '8080:8080'
     env_file:                  # Choose our environment configuration used to start the container
